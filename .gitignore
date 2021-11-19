@@ -1,0 +1,4 @@
+cortexutils/results/
+*.egg-info/
+.coverage/
+.coverage
