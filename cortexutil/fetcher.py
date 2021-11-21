@@ -11,6 +11,12 @@ def get_metrics(endpoint):
     }
     return requests.get(endpoint, headers=headers).text
 
+
+def get_config_diff(endpoint):
+    return requests.get(endpoint).text
+
+
+
 def is_helper(line):
     return line.startswith('# HELP')
 

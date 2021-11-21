@@ -19,6 +19,25 @@ class GatherMetrics(luigi.WrapperTask):
         yield Metrics2Raw(self.host, self.host_type)
         yield Metrics2Json(self.host, self.host_type)
         yield Metrics2Table(self.host, self.host_type)
+        yield GetConfigDiff(self.host, self.host_type)
+        
+
+class GetConfigDiff(luigi.Task):
+    
+    host = luigi.Parameter()
+    host_type = luigi.Parameter()
+    
+    def output(self):
+        return luigi.LocalTarget(f"results/{fix_name(self.host)}_{self.host_type}.config.diff")
+    
+    def run(self):
+        endpoint = self.host.replace("/metrics", "/config?mode=diff")
+        log.info(F"Config diff from here: {endpoint}")
+        result = fetcher.get_config_diff(endpoint)
+        with self.output().open("w") as output:
+            output.write(result)
+        
+        
         
 class Metrics2Raw(luigi.Task):
     
