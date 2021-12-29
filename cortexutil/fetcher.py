@@ -9,13 +9,24 @@ def get_metrics(endpoint):
     headers = {
         'Content-Type': 'text/plain'
     }
+    log.info("Getting from this endpoint")
     return requests.get(endpoint, headers=headers).text
 
 
 def get_config_diff(endpoint):
     return requests.get(endpoint).text
 
-
+def get_value(line):
+    if " " not in line:
+        return (None, None)
+    
+    split =  line.replace("\n", "").split(" ")
+    if split[-1] == "NaN":
+        return (None, None)
+    if "{" in split[0]:
+        value = split[-1]
+        return (split[0].split("{")[0], value)
+    return (split[0], split[-1])
 
 def is_helper(line):
     return line.startswith('# HELP')

@@ -9,13 +9,16 @@ fastapi = "*"
 setuptools = "*"
 luigi = "*"
 structlog = "*"
-
+locust = "*"
+prometheus-api-client = "*"
+d3graph = "*"
+minio = "*"
+jsonpath-ng = "*"
 
 [dev-packages]
 pytest = "*"
 pytest-cov = "*"
 requests-mock = "*"
-
 
 [requires]
 python_version = "3.7"
