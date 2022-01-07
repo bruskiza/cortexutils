@@ -24,20 +24,14 @@
                     }
                 ],
                 "targets": [{
-                        "exemplar": true,
                         "expr": "sum(irate(cortex_request_duration_seconds_count{status_code=~\"4.*|5.*\"}[5m]))",
                         "format": "time_series",
-                        "interval": "",
-                        "intervalFactor": 1,
                         "legendFormat": "Errors",
                         "refId": "B"
                     },
                     {
-                        "exemplar": true,
                         "expr": "sum(irate(cortex_request_duration_seconds_count{status_code=~\"2.*\"}[5m]))",
                         "format": "time_series",
-                        "interval": "",
-                        "intervalFactor": 1,
                         "legendFormat": "Success",
                         "refId": "C"
                     }
@@ -47,8 +41,8 @@
             },
             {
                 "aliasColors": {
-                    "2xx": "#7EB26D",
-                    "4xx": "#F2C96D",
+                    "2xx": "#629e51",
+                    "4xx": "#bf1b00",
                     "5xx": "#BF1B00"
                 },
                 "gridPos": {
@@ -64,28 +58,20 @@
                 "id": null,
                 "description": "Query Read per Second",
                 "targets": [{
-                        "exemplar": true,
                         "expr": "sum(irate(cortex_request_duration_seconds_count{status_code=~\"2.*\"}[5m]))",
                         "format": "time_series",
-                        "interval": "1m",
-                        "intervalFactor": 2,
                         "legendFormat": "2xx",
                         "refId": "A"
                     },
                     {
-                        "exemplar": true,
                         "expr": "sum(irate(cortex_request_duration_seconds_count{status_code=~\"4.*\"}[5m]))",
                         "format": "time_series",
-                        "interval": "1m",
-                        "intervalFactor": 2,
                         "legendFormat": "4xx",
                         "refId": "B"
                     },
                     {
                         "expr": "sum(irate(cortex_request_duration_seconds_count{status_code=~\"5.*\", route=\"api_prom_api_v1\"}[5m]))",
                         "format": "time_series",
-                        "interval": "1m",
-                        "intervalFactor": 2,
                         "legendFormat": "5xx",
                         "refId": "C"
                     }
