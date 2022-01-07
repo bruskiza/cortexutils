@@ -1,0 +1,116 @@
+{
+    "dashboard": {
+        "id": null,
+        "uid": null,
+        "title": "Production Overview",
+        "tags": ["templated"],
+        "timezone": "browser",
+        "schemaVersion": 16,
+        "version": 0,
+        "refresh": "25s"
+    },
+
+    "message": "Made changes to xyz",
+    "overwrite": true,
+    "panels": [{
+        "aliasColors": {},
+        "bars": false,
+        "dashLength": 10,
+        "dashes": false,
+        "datasource": {
+            "type": "prometheus",
+            "uid": "sQ5xi_7nz"
+        },
+        "description": "Success rate of fulfilled queries (from query-frontend)",
+        "fill": 2,
+        "fillGradient": 0,
+        "gridPos": {
+            "h": 5,
+            "w": 12,
+            "x": 0,
+            "y": 0
+        },
+        "hiddenSeries": false,
+        "id": 2,
+        "legend": {
+            "avg": false,
+            "current": false,
+            "max": false,
+            "min": false,
+            "show": true,
+            "total": false,
+            "values": false
+        },
+        "lines": true,
+        "linewidth": 1,
+        "links": [],
+        "nullPointMode": "null",
+        "options": {
+            "alertThreshold": true
+        },
+        "percentage": false,
+        "pluginVersion": "8.4.0-pre",
+        "pointradius": 5,
+        "points": false,
+        "renderer": "flot",
+        "seriesOverrides": [{
+                "alias": "Errors",
+                "color": "#bf1b00"
+            },
+            {
+                "alias": "Success",
+                "color": "#629e51"
+            }
+        ],
+        "spaceLength": 10,
+        "stack": false,
+        "steppedLine": false,
+        "targets": [{
+                "exemplar": true,
+                "expr": "sum(irate(cortex_request_duration_seconds_count{status_code=~\"4.*|5.*\"}[5m]))",
+                "format": "time_series",
+                "interval": "",
+                "intervalFactor": 1,
+                "legendFormat": "Errors",
+                "refId": "B"
+            },
+            {
+                "exemplar": true,
+                "expr": "sum(irate(cortex_request_duration_seconds_count{status_code=~\"2.*\"}[5m]))",
+                "format": "time_series",
+                "interval": "",
+                "intervalFactor": 1,
+                "legendFormat": "Success",
+                "refId": "C"
+            }
+        ],
+        "thresholds": [],
+        "timeRegions": [],
+        "title": "Query Error Rate",
+        "tooltip": {
+            "shared": true,
+            "sort": 0,
+            "value_type": "individual"
+        },
+        "type": "graph",
+        "xaxis": {
+            "mode": "time",
+            "show": true,
+            "values": []
+        },
+        "yaxes": [{
+                "format": "short",
+                "logBase": 1,
+                "show": true
+            },
+            {
+                "format": "short",
+                "logBase": 1,
+                "show": true
+            }
+        ],
+        "yaxis": {
+            "align": false
+        }
+    }]
+}
