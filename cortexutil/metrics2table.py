@@ -21,6 +21,7 @@ class GatherMetrics(luigi.WrapperTask):
         yield Metrics2Raw(self.host, self.host_type)
         yield Metrics2Json(self.host, self.host_type)
         yield Metrics2Table(self.host, self.host_type)
+        yield Metrics2GrafanaDashboard(self.host, self.host_type)
         yield GetConfigDiff(self.host, self.host_type)
         yield Metrics2NonZeros(self.host, self.host_type)
         yield ProcessNonZeros(self.host, self.host_type)
@@ -135,7 +136,49 @@ class ProcessNonZeros(luigi.Task):
             
         with self.output().open("w") as out:
             out.write("\n".join(set(metrics)))
+            
+            
+class Metrics2GrafanaDashboard(luigi.Task):
+    host = luigi.Parameter()
+    host_type = luigi.Parameter()
+    
+    
+    def requires(self):
+        return Metrics2Json(self.host, self.host_type)
+    
+    def output(self):
+        return luigi.LocalTarget(f"results/{fix_name(self.host)}_{self.host_type}_dashboard.json")
+    
+    
+    def run(self):
+        file_name = f"results/{fix_name(self.host)}_{self.host_type}.json"
+        log.info(f"File name: {file_name}")
+        data = json.load(open(file_name))
+        panels = []
+        for metric in data['metrics']:
+            log.info(metric.get("metric"))
+            panels.append(json.loads(generate_grafana_panel(metric)))
+
+        # Render out all the metrics
+        t = Template(open(f"templates/grafana_dashboard.jinja2").read())
+        log.info(json.dumps(panels, indent=4))
+        with open(f"results/{fix_name(self.host)}_{self.host_type}_dashboard.json", "w") as output:
+            output.write(t.render(
+                panels=panels,
+                host=self.host,
+                host_type=self.host_type
+            ))
         
+        
+        
+def generate_grafana_panel(metric):
+    t = Template(open("templates/grafana_panel.jinja2").read())
+    return t.render(
+        description = metric.get("help"),
+        expression = metric.get("metric"),
+        title = metric.get("metric")
+    )
+    
     
     
 class Metrics2Json(luigi.Task):
