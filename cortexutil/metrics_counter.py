@@ -153,7 +153,47 @@ class instances2timeseries(luigi.Task):
                     
         with self.output().open("w") as out:
             out.write(json.dumps(hosts, indent=4))
+
+
+class instances2jobs(luigi.Task):
+    """Writes out a summary of every metric"""
+    host = luigi.Parameter()
+    
+    def requires(self):
+        return FetchEveryMetric(self.host)    
+    
+    def output(self):
+        return luigi.LocalTarget(f"results/{fix_name(self.host)}_instances_with_jobs.json")
+    
+    def run(self):
+        data = json.load(self.input().open())
+        metrics = data.get('metrics')
+        hosts = {}
+        for metric in metrics:
+            for instance in counter.get_jobs(metrics.get(metric)):
+                if instance not in hosts:
+                    hosts[instance] = []
+                if metric not in hosts[instance]:
+                    hosts[instance].append(metric)
+                    
+        with self.output().open("w") as out:
+            out.write(json.dumps(hosts, indent=4))
         
+class process(luigi.Task):
+    """Writes out a summary of every metric"""
+    host = luigi.Parameter()
+    
+    def requires(self):
+        return FetchEveryMetric(self.host)    
+    
+    def output(self):
+        return luigi.LocalTarget(f"results/{fix_name(self.host)}_instances_with_jobs_with_series.json")
+    
+    def run(self):
+        data = json.load(self.input().open())
+        result = counter.process(data)            
+        with self.output().open("w") as out:
+            out.write(json.dumps(result, indent=4))
 
 class FetchEveryMetric(luigi.Task):
     """ Fetches every metric for a given host """

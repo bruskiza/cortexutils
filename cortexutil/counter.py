@@ -25,3 +25,16 @@ def get_jobs(timeseries):
 def get_instances(timeseries):
     return get_values(timeseries, INSTANCE)
 
+def process(prometheus_record):
+    instances = {}
+    for timeseries in prometheus_record.get('metrics'):
+        for record in  prometheus_record.get('metrics').get(timeseries):
+            instance = record.get('metric').get('instance')
+            job = record.get('metric').get('job')
+            if instance not in instances.keys():
+                instances[instance] = {"jobs": {}}
+            if job not in instances.get(instance).get('jobs'):
+                instances[instance]["jobs"][job] = []
+            instances[instance]["jobs"][job].append(timeseries)
+            
+    return instances
