@@ -1,85 +1,8 @@
 {
     "dashboard": {
         "editable": true,
-        "panels": [{
-                "datasource": {
-                    "type": "prometheus",
-                    "uid": "sQ5xi_7nz"
-                },
-                "description": "Success rate of fulfilled queries (from query-frontend)",
-                "gridPos": {
-                    "h": 5,
-                    "w": 24,
-                    "x": 0,
-                    "y": 0
-                },
-                "id": null,
-                "seriesOverrides": [{
-                        "alias": "Errors",
-                        "color": "#bf1b00"
-                    },
-                    {
-                        "alias": "Success",
-                        "color": "#629e51"
-                    }
-                ],
-                "targets": [{
-                        "expr": "sum(irate(cortex_request_duration_seconds_count{status_code=~\"4.*|5.*\"}[5m]))",
-                        "format": "time_series",
-                        "legendFormat": "Errors",
-                        "refId": "B"
-                    },
-                    {
-                        "expr": "sum(irate(cortex_request_duration_seconds_count{status_code=~\"2.*\"}[5m]))",
-                        "format": "time_series",
-                        "legendFormat": "Success",
-                        "refId": "C"
-                    }
-                ],
-                "title": "Query Error Rate",
-                "type": "graph"
-            },
-            {
-                "aliasColors": {
-                    "2xx": "#629e51",
-                    "4xx": "#bf1b00",
-                    "5xx": "#BF1B00"
-                },
-                "gridPos": {
-                    "h": 5,
-                    "w": 24,
-                    "x": 0,
-                    "y": 0
-                },
-                "datasource": {
-                    "type": "prometheus",
-                    "uid": "sQ5xi_7nz"
-                },
-                "id": null,
-                "description": "Query Read per Second",
-                "targets": [{
-                        "expr": "sum(irate(cortex_request_duration_seconds_count{status_code=~\"2.*\"}[5m]))",
-                        "format": "time_series",
-                        "legendFormat": "2xx",
-                        "refId": "A"
-                    },
-                    {
-                        "expr": "sum(irate(cortex_request_duration_seconds_count{status_code=~\"4.*\"}[5m]))",
-                        "format": "time_series",
-                        "legendFormat": "4xx",
-                        "refId": "B"
-                    },
-                    {
-                        "expr": "sum(irate(cortex_request_duration_seconds_count{status_code=~\"5.*\", route=\"api_prom_api_v1\"}[5m]))",
-                        "format": "time_series",
-                        "legendFormat": "5xx",
-                        "refId": "C"
-                    }
-                ],
-                "title": "Querier Read QPS",
-                "type": "graph"
-            }
-        ],
+        "panels": {
+            { panels } },
         "schemaVersion": 34,
         "tags": [
             "templated"

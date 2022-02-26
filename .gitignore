@@ -1,5 +1,7 @@
-cortexutils/results/
-*.egg-info/
-.coverage/
 .coverage
+*.db
+.DS_Store
+*.egg-info/
+*.pyc
+cortexutils/results/
 results/

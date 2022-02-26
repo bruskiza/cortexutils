@@ -3,6 +3,7 @@
 import luigi
 from structlog import get_logger
 import cortexutil.fetcher as fetcher
+import cortexutil.counter as counter
 from jinja2 import Template
 import json
 from datetime import datetime 
@@ -128,6 +129,30 @@ class SummarizeEveryMetric(luigi.Task):
         }
         with self.output().open("w") as out:
             out.write(json.dumps(summary, indent=4))
+            
+class instances2timeseries(luigi.Task):
+    """Writes out a summary of every metric"""
+    host = luigi.Parameter()
+    
+    def requires(self):
+        return FetchEveryMetric(self.host)    
+    
+    def output(self):
+        return luigi.LocalTarget(f"results/{fix_name(self.host)}_instances_with_timeseries.json")
+    
+    def run(self):
+        data = json.load(self.input().open())
+        metrics = data.get('metrics')
+        hosts = {}
+        for metric in metrics:
+            for instance in counter.get_instances(metrics.get(metric)):
+                if instance not in hosts:
+                    hosts[instance] = []
+                if metric not in hosts[instance]:
+                    hosts[instance].append(metric)
+                    
+        with self.output().open("w") as out:
+            out.write(json.dumps(hosts, indent=4))
         
 
 class FetchEveryMetric(luigi.Task):
