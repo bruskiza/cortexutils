@@ -48,6 +48,7 @@ def process_jobs(prometheus_record):
             if job not in jobs.keys():
                 jobs[job] = {"instances": {}}
             if instance not in jobs.get(job).get('instances'):
+                jobs[job]["instances"][instance] = []
                 jobs[job]["instances"][instance].append(timeseries)
             
     return jobs
