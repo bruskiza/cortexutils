@@ -27,8 +27,6 @@ def test_get_instances():
     assert get_instances(test_prometheus_record.get('metrics').get('timeseries1')) == ["instance1", "instance2"]
     
     
-def test_process():
-    processed = process(test_prometheus_record)
-    
-    assert len(process(test_prometheus_record).keys()) == 2
-    
+def test_process_instances():
+    assert len(process_instances(test_prometheus_record).keys()) == 2
+    assert len(process_jobs(test_prometheus_record).keys()) == 2

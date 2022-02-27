@@ -179,7 +179,7 @@ class instances2jobs(luigi.Task):
         with self.output().open("w") as out:
             out.write(json.dumps(hosts, indent=4))
         
-class process(luigi.Task):
+class process_instances(luigi.Task):
     """Writes out a summary of every metric"""
     host = luigi.Parameter()
     
@@ -191,9 +191,26 @@ class process(luigi.Task):
     
     def run(self):
         data = json.load(self.input().open())
-        result = counter.process(data)            
+        result = counter.process_instances(data)            
         with self.output().open("w") as out:
             out.write(json.dumps(result, indent=4))
+
+class process_jobs(luigi.Task):
+    """Writes out a summary of every metric"""
+    host = luigi.Parameter()
+    
+    def requires(self):
+        return FetchEveryMetric(self.host)    
+    
+    def output(self):
+        return luigi.LocalTarget(f"results/{fix_name(self.host)}_jobs_with_instances_with_series.json")
+    
+    def run(self):
+        data = json.load(self.input().open())
+        result = counter.process_instances(data)            
+        with self.output().open("w") as out:
+            out.write(json.dumps(result, indent=4))
+
 
 class FetchEveryMetric(luigi.Task):
     """ Fetches every metric for a given host """
