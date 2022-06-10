@@ -1,0 +1,27 @@
+[tool.poetry]
+name = "cortexutils"
+version = "0.1.0"
+description = ""
+authors = ["bruskiza <bruce.mcintyre@gmail.com>"]
+
+[tool.poetry.dependencies]
+python = "^3.9"
+requests = "*"
+fastapi = "*"
+setuptools = "*"
+luigi = "*"
+structlog = "*"
+locust = "*"
+prometheus-api-client = "*"
+d3graph = "*"
+minio = "*"
+jsonpath-ng = "*"
+
+[tool.poetry.dev-dependencies]
+pytest = "*"
+pytest-cov = "*"
+requests-mock = "*"
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
