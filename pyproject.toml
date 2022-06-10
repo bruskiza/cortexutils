@@ -21,6 +21,7 @@ jsonpath-ng = "*"
 pytest = "*"
 pytest-cov = "*"
 requests-mock = "*"
+pytest-mock = "*"
 
 [build-system]
 requires = ["poetry-core>=1.0.0"]

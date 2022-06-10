@@ -4,4 +4,6 @@
 *.egg-info/
 *.pyc
 cortexutils/results/
-results/
+results/.idea/
+.vscode/
+cortexutils.iml

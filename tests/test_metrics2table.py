@@ -1,4 +1,4 @@
-from cortexutil.metrics2table import *
+from cortexutils.metrics2table import *
 
 def test_Metrics2Raw(mocker, requests_mock):
     # setup

@@ -1,4 +1,4 @@
-from cortexutil.counter import *
+from cortexutils.counter import *
 import json
 
 test_prometheus_record = {

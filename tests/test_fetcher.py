@@ -1,5 +1,5 @@
-from cortexutil.fetcher import *
-from cortexutil.prometheus_metric import PrometheusMetric
+from cortexutils.fetcher import *
+from cortexutils.prometheus_metric import PrometheusMetric
 
 dummy_statistic = """
 # HELP go_gc_duration_seconds A summary of the pause duration of garbage collection cycles.
